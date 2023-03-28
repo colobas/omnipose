@@ -1,22 +1,15 @@
 import setuptools
 from setuptools import setup
 
+
+cp_ver = '0.7.3'
 install_deps = ['numpy>=1.22.4', 'scipy', 'numba', 
                 'edt','scikit-image','ncolor>=1.2.1',
                 'scikit-learn','torch>=1.10',
                 'mahotas>=1.4.13',
-                'mgen','matplotlib','networkx']
+                'mgen','matplotlib','networkx',
+                f'cellpose-omni[omni]>={cp_ver}']
 
-import os
-
-if os.getenv('NO_GUI'):
-    extra = 'omni'
-else:
-    extra = 'all'
-    
-cp_ver = '0.7.3'
-cp_deps = ['cellpose-omni['+extra+']>='+cp_ver,]
-    
 with open("README.md", "r") as fh:
     long_description = fh.read()
     
@@ -34,10 +27,13 @@ setup(
     ],
     packages=setuptools.find_packages(),
     use_scm_version=True,
-    install_requires = install_deps+cp_deps,
+    install_requires=install_deps,
     tests_require=[
       'pytest'
     ],
+    extras_require={
+        "gui": [f"cellpose-omni[all]>={cp_ver}"]
+    },
     include_package_data=True,
     classifiers=(
         "Programming Language :: Python :: 3",
